@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+</head>
+<body>
+    <canvas id = "canvas" width="1700" height="2000"></canvas>
+    <script>
+
+
+        let keys = {}
+        let canvas = document.getElementById("canvas")
+        let brush = canvas.getContext("2d")
+        let player = {
+            x:50,
+            y:50,
+            width:50,
+            height:50,
+            speed:15
+        }
+
+
+        class wall{
+            constructor(x,y,width,height)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+            }
+        }
+
+            let walls = [
+                new wall (400,320,42,146)
+            ]
+        
+        function create()
+        {
+            brush.fillRect(
+                player.x,
+                player.y,
+                player.width,
+                player.height
+            )
+            walls.forEach(function(wall)
+            {
+                brush.fillRect(
+                    wall.x,
+                    wall.y,
+                    wall.width,
+                    wall.height
+                )
+            }
+              
+            )
+        }
+
+        window.addEventListener("keydown", function(event)
+    {
+        keys[event.key] = true
+    })
+
+        window.addEventListener("keyup", function(event)
+    {
+        keys[event.key] = false
+    })
+    
+
+        function iscolliding(wall1,wall2)
+        {
+            if (wall1.x + wall1.width > wall2.x &&
+                wall1.x < wall2.x + wall2.width &&
+                wall1.y + wall1.height > wall2.y &&
+                wall1.y < wall2.y + wall2.height
+            )
+            {
+                return true}
+        }
+
+
+        function gameloop()
+        {
+            if (keys["w"] || keys["W"]) {player.y = player.y - player.speed}
+            if (keys["s"] || keys["S"]) {player.y = player.y + player.speed}
+
+
+                walls.forEach(function(wall)
+        {
+            if (iscolliding(player, wall))
+        {
+            if (keys["w"] || keys["W"]) {player.y = wall.y + wall.height}
+            if (keys["s"] || keys["S"]) {player.y = wall.y - player.height}
+        }
+        })
+
+
+            if (keys["d"] || keys["D"]) {player.x = player.x + player.speed}
+            if (keys["a"] || keys["A"]) {player.x = player.x - player.speed}
+       
+            
+            walls.forEach(function(wall)
+        {
+            if (iscolliding(player, wall))
+        {
+            if (keys["d"] || keys["D"]) {player.x = wall.x - player.width}
+            if (keys["a"] || keys["A"]) {player.x = wall.x + wall.width}
+        }
+        })
+
+
+
+
+            brush.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            )
+            create()
+            requestAnimationFrame(gameloop)
+        }
+        gameloop()
+    </script>
+</body>
+</html>
