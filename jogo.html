@@ -21,19 +21,79 @@
 
 
         class wall{
-            constructor(x,y,width,height)
+            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
             {
                 this.x = x
                 this.y = y
                 this.width = width
                 this.height = height
+                this.id = id
+                this.cor = cor
+                this.maxE = maxE
+                this.maxD = maxD
+                this.maxC = maxC
+                this.maxB = maxB
+                this.direcao = direcao
+                this.area = area
             }
         }
 
             let walls = [
-                new wall (400,320,42,146)
-            ]
+                new wall (0,0, 1400, 30, "parede"),
+                new wall (0,0, 30, 700, "parede"),
+                new wall (0,670, 1400, 30, "parede"),
+                new wall (1370,0, 30, 700, "parede"),
+                new wall (300, 0, 80, 340, "parede"),
+                new wall (500, 400, 80, 340, "parede"),
+                new wall (900, 50, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
+                new wall (1100, 330, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
+                new wall (700, 330, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
+                new wall (1340, 250, 30, 200, "area", "green", 0, 0 , 0 , 0,0, "1")]
         
+        function kill()
+        {
+            player.x = 50
+            player.y = 50
+            alert("Morreu!")
+        }
+
+
+            function novaarea(wall)
+            { 
+                if (iscolliding(wall, player))
+            {
+                alert("entrou na area " + wall.area)
+            }
+            }
+
+
+
+        function movel(wall)
+        {
+            if(wall.y <= wall.maxC)
+            {
+               wall.direcao = "baixo"
+            }
+            else
+            {
+               if (wall.y >= wall.maxB - wall.height)
+               {
+                 wall.direcao = "cima"
+               }
+            }
+            if (wall.direcao == "cima")
+            {
+                wall.y = wall.y - 15
+            }
+            else
+            {
+                wall.y = wall.y + 15
+            }
+            if (iscolliding(wall, player))
+            {kill()}
+            }
+
+
         function create()
         {
             brush.fillRect(
@@ -42,14 +102,32 @@
                 player.width,
                 player.height
             )
+
             walls.forEach(function(wall)
             {
+            
+                if (wall.id === "movely")
+            {
+                movel(wall)
+            }
+            else
+            {
+                if (wall.id == "area")
+            {
+             novaarea(wall)
+            }
+            }
+            if (wall.cor)
+            {
+                brush.fillStyle = wall.cor
+            }
                 brush.fillRect(
                     wall.x,
                     wall.y,
                     wall.width,
                     wall.height
                 )
+                brush.fillStyle = "black"
             }
               
             )
