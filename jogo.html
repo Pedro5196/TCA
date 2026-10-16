@@ -22,11 +22,20 @@
 
         class wall{
             constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
+            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
             {
                 this.x = x
                 this.y = y
                 this.width = width
                 this.height = height
+                this.id = id
+                this.cor = cor
+                this.maxE = maxE
+                this.maxD = maxD
+                this.maxC = maxC
+                this.maxB = maxB
+                this.direcao = direcao
+                this.area = area
                 this.id = id
                 this.cor = cor
                 this.maxE = maxE
@@ -172,6 +181,7 @@
                     wall.width,
                     wall.height
                 )
+                brush.fillStyle = "black"
                 brush.fillStyle = "black"
             }
               
