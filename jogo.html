@@ -22,7 +22,6 @@
 
         class wall{
             constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
-            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
             {
                 this.x = x
                 this.y = y
@@ -50,7 +49,7 @@
 
 
         class areachanger{
-            constructor(x,y,width,height, id,  cor, area, spawnx, spawny)
+            constructor(x,y,width,height, id,  cor, area, spawnx, spawny, locked)
                 {this.x = x
                 this.y = y
                 this.width = width
@@ -59,8 +58,46 @@
                 this.cor = cor
                 this.area = area
                 this.spawnx = spawnx
-                this.spawny = spawny}
+                this.spawny = spawny
+                this.locked = locked}
         }
+        
+        
+        class light{
+            constructor(x,y,width,height, id, cor)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                
+            }
+        }
+
+
+        class movela{
+            constructor(x,y,width,height, id, cor, maxE, maxD, maxC, maxB, direcao, direction, speed)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                this.maxE = maxE
+                this.maxD = maxD
+                this.maxC = maxC
+                this.maxB = maxB
+                this.direction = direction
+                this.speed = speed
+            }
+        }
+
+
+
+
         let walls = [
                 [
                 new wall (0,0, 1400, 30, "parede"),
@@ -68,22 +105,41 @@
                 new wall (0,670, 1400, 30, "parede"),
                 new wall (1370,0, 30, 700, "parede"),
                 new wall (300, 0, 80, 340, "parede"),
-                new wall (500, 400, 80, 340, "parede"),
-                new wall (900, 50, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
-                new wall (1100, 330, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
-                new wall (700, 330, 80, 340, "movely", "red", 0,0,30, 670, "cima"),
-                new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250)],
+                new wall (500, 400, 80, 300, "parede"),
+                new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
+                new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
+                new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
+                new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250, false)],
             
             
                 [new wall (0,0, 1400, 30, "parede"),
                 new wall (0,0, 30, 700, "parede"),
                 new wall (0,670, 1400, 30, "parede"),
                 new wall (1370,0, 30, 700, "parede"),
-                new areachanger (30, 250, 30, 200, "area", "green", 0, 1200, 250 ),
-                new wall (1000, 125, 70, 70, "joia", "purple"),
-                new wall (1000, 250, 70, 70, "joia", "yellow"),
-                new wall (1000, 375, 70, 70, "joia", "blue"),
-                new wall (1000, 500, 70, 70, "joia", "darkgreen")],
+                new areachanger (30, 250, 30, 200, "area", "green", 0, 1200, 250, false ),
+                new wall (1000, 125, 70, 70, "joiastore", "purple"),
+                new wall (1000, 250, 70, 70, "joiastore", "yellow"),
+                new wall (1000, 375, 70, 70, "joiastore", "blue"),
+                new wall (1000, 500, 70, 70, "joiastore", "darkgreen"),
+                new areachanger (1340, 250, 30, 200, "area", "green", 0, 1200, 250, true),
+                new light (1355, 200, 15, 35, "yellow", "grey"),
+                new light (1355, 150, 15, 35, "purple", "grey"),
+                new light (1355, 465, 15, 35, "blue", "grey"),
+                new light (1355, 515, 15, 35, "darkgreen", "grey"),
+                new areachanger (250, 30, 200, 30, "area", "green", 2, 1125, 570, false)],
+                
+
+                [
+                new wall (0,0, 1400, 30, "parede"),
+                new wall (0,0, 30, 700, "parede"),
+                new wall (0,670, 1400, 30, "parede"),
+                new wall (1370,0, 30, 700, "parede"), 
+                new areachanger (1050, 640, 200, 30, "area", "green", 1, 325, 80, false),
+                new wall (900, 400, 70, 280, "parede"),
+                new wall (900, 30, 70, 280, "parede"),
+                new wall (100, 400, 70, 280, "parede"),
+                new wall (100, 30, 70, 280, "parede")
+                ]
             
             
             
@@ -96,6 +152,20 @@
             
             ]
         let activewalls = walls[0]
+        let joias = {
+            purple:true,
+            yellow:true,
+            blue:true,
+            darkgreen:true
+        }
+
+        let joiasativas = {
+            purple:false,
+            yellow:false,
+            blue:false,
+            darkgreen:false
+        }
+
         function iscolliding(wall1,wall2)
         {
             if (wall1.x + wall1.width > wall2.x &&
@@ -107,15 +177,35 @@
                 return true}
         }
 
-
-
+        function clearmovement()
+        { Object.keys(keys).forEach(function(key)
+            {keys[key] = false})}
 
         function kill()
         {
+            clearmovement()
             player.x = 50
             player.y = 50
             alert("Morreu!")
         }
+
+
+
+        function lightup(wall)
+        {
+            activewalls.forEach(function(walla)
+        {
+            if (walla.id == wall.cor)
+        {
+            walla.cor = walla.id
+            joiasativas[walla.cor] = true
+            player.y = wall.y
+            player.x = wall.x - 80
+            clearmovement()
+        }
+        })
+        }
+
 
 
             function novaarea(wall)
@@ -124,14 +214,34 @@
                activewalls = walls[wall.area]
                player.x = wall.spawnx
                player.y = wall.spawny
+
             
             }
+
+        
+        function gema(cor, wall)
+        {
+            if (joias[cor] == true)
+        {
+            lightup(wall)
+        }
+        else
+        {
+            alert("Precisa da joia pra colocar aqui")
+            player.y = wall.y
+            player.x = wall.x - 80
+            clearmovement()
+        }
+        }
+
+
 
 
 
         function movel(wall)
         {
-            if(wall.y <= wall.maxC)
+        if (wall.direction == "y")
+            {if(wall.y <= wall.maxC)
             {
                wall.direcao = "baixo"
             }
@@ -144,14 +254,44 @@
             }
             if (wall.direcao == "cima")
             {
-                wall.y = wall.y - 15
+                wall.y = wall.y - wall.speed
             }
             else
             {
-                wall.y = wall.y + 15
+                wall.y = wall.y + wall.speed
+            }
+            if (iscolliding(wall, player))
+            {kill()}}
+
+
+            else
+            {
+
+
+                if(wall.x <= wall.maxE)
+            {
+               wall.direcao = "direita"
+            }
+            else
+            {
+               if (wall.x >= wall.maxD + wall.width)
+               {
+                 wall.direcao = "esquerda"
+               }
+            }
+            if (wall.direcao == "direita")
+            {
+                wall.x = wall.x + 15
+            }
+            else
+            {
+                wall.x = wall.x - 15
             }
             if (iscolliding(wall, player))
             {kill()}
+
+
+            }
             }
 
 
@@ -167,7 +307,7 @@
             activewalls.forEach(function(wall)
             {
             
-                if (wall.id === "movely")
+            if (wall.id == "movel")
             {
                 movel(wall)
             }
@@ -211,12 +351,44 @@
             for (let i = 0; i<activewalls.length; i++)
         {   let wall = activewalls[i]
             if (iscolliding(player, wall))
+
         {   if (wall.id == "area")
-        {
-             if (iscolliding(wall, player))
+        {   if (wall.locked == false)
             {novaarea(wall)
-                return requestAnimationFrame(gameloop)
+            return requestAnimationFrame(gameloop)}
+            else
+            {   
+                let destrancar = true
+                Object.keys(joiasativas).forEach(function(joia)
+                {
+
+                    
+                    if (joiasativas[joia] == false)
+                {
+                    destrancar = false
+                }
+
+
+                })
+                 if (destrancar == true)
+                {
+                    wall.locked = false
+                }
+                else {if (destrancar == false)
+                {alert("você precisa coletar as joias pra abrir essa porta")
+                player.x = wall.x -80 
+                player.y = wall.y + 75
+                 clearmovement()
+                return requestAnimationFrame(gameloop)}}
             }
+        }
+        else
+        {
+            if (wall.id == "joiastore")
+        {
+            gema(wall.cor, wall)
+            return requestAnimationFrame(gameloop)
+        }
         }
             if (keys["w"] || keys["W"]) {player.y = wall.y + wall.height}
             if (keys["s"] || keys["S"]) {player.y = wall.y - player.height}
@@ -234,10 +406,26 @@
             if (iscolliding(player, wall))
         {   if (wall.id == "area")
         {
-             if (iscolliding(wall, player))
+             if (wall.locked == false)
             {novaarea(wall)
+            return requestAnimationFrame(gameloop)}
+             else
+            {
+                alert("você precisa coletar as joias pra abrir essa porta")
+                player.x = wall.x -80 
+                player.y = wall.y + 75
+                clearmovement()
                 return requestAnimationFrame(gameloop)
             }
+            
+        }
+         else
+        {
+            if (wall.id == "joiastore")
+        {
+            gema(wall.cor, wall)
+            return requestAnimationFrame(gameloop)
+        }
         }
             if (keys["d"] || keys["D"]) {player.x = wall.x - player.width}
             if (keys["a"] || keys["A"]) {player.x = wall.x + wall.width}
