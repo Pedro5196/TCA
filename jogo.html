@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
+
 </head>
 <body>
     <canvas id = "canvas" width="1700" height="2000"></canvas>
@@ -16,12 +16,13 @@
             y:50,
             width:50,
             height:50,
-            speed:15
+            speed:10
         }
 
 
         class wall{
-            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC, maxB, direcao, area)
+            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC,
+maxB, direcao, area)
             {
                 this.x = x
                 this.y = y
@@ -49,7 +50,8 @@
 
 
         class areachanger{
-            constructor(x,y,width,height, id,  cor, area, spawnx, spawny, locked)
+            constructor(x,y,width,height, id,  cor, area, spawnx,
+spawny, locked)
                 {this.x = x
                 this.y = y
                 this.width = width
@@ -61,8 +63,8 @@
                 this.spawny = spawny
                 this.locked = locked}
         }
-        
-        
+
+
         class light{
             constructor(x,y,width,height, id, cor)
             {
@@ -72,13 +74,14 @@
                 this.height = height
                 this.id = id
                 this.cor = cor
-                
+
             }
         }
 
 
         class movela{
-            constructor(x,y,width,height, id, cor, maxE, maxD, maxC, maxB, direcao, direction, speed)
+            constructor(x,y,width,height, id, cor, maxE, maxD, maxC,
+maxB, direcao, direction, speed, respawnx, respawny)
             {
                 this.x = x
                 this.y = y
@@ -92,6 +95,8 @@
                 this.maxB = maxB
                 this.direction = direction
                 this.speed = speed
+                this.respawnx = respawnx
+                this.respawny = respawny
             }
         }
 
@@ -99,64 +104,121 @@
 
 
         let walls = [
-                [
-                new wall (0,0, 1400, 30, "parede"),
-                new wall (0,0, 30, 700, "parede"),
-                new wall (0,670, 1400, 30, "parede"),
-                new wall (1370,0, 30, 700, "parede"),
-                new wall (300, 0, 80, 340, "parede"),
-                new wall (500, 400, 80, 300, "parede"),
-                new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
-                new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
-                new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15),
-                new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250, false)],
-            
-            
-                [new wall (0,0, 1400, 30, "parede"),
-                new wall (0,0, 30, 700, "parede"),
-                new wall (0,670, 1400, 30, "parede"),
-                new wall (1370,0, 30, 700, "parede"),
-                new areachanger (30, 250, 30, 200, "area", "green", 0, 1200, 250, false ),
-                new wall (1000, 125, 70, 70, "joiastore", "purple"),
-                new wall (1000, 250, 70, 70, "joiastore", "yellow"),
-                new wall (1000, 375, 70, 70, "joiastore", "blue"),
-                new wall (1000, 500, 70, 70, "joiastore", "darkgreen"),
-                new areachanger (1340, 250, 30, 200, "area", "green", 0, 1200, 250, true),
-                new light (1355, 200, 15, 35, "yellow", "grey"),
-                new light (1355, 150, 15, 35, "purple", "grey"),
-                new light (1355, 465, 15, 35, "blue", "grey"),
-                new light (1355, 515, 15, 35, "darkgreen", "grey"),
-                new areachanger (250, 30, 200, 30, "area", "green", 2, 1125, 570, false)],
-                
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
+        new wall (300, 0, 80, 340, "parede"),
+        new wall (500, 400, 80, 300, "parede"),
+        new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250, false)
+    ],
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
+        new areachanger (30, 250, 30, 200, "area", "green", 0, 1200, 250, false ),
+        new wall (1000, 125, 70, 70, "joiastore", "purple"),
+        new wall (1000, 250, 70, 70, "joiastore", "yellow"),
+        new wall (1000, 375, 70, 70, "joiastore", "blue"),
+        new wall (1000, 500, 70, 70, "joiastore", "darkgreen"),
+        new areachanger (1340, 250, 30, 200, "area", "green", 0, 1200, 250, true),
+        new light (1355, 200, 15, 35, "yellow", "grey"),
+        new light (1355, 150, 15, 35, "purple", "grey"),
+        new light (1355, 465, 15, 35, "blue", "grey"),
+        new light (1355, 515, 15, 35, "darkgreen", "grey"),
+        new areachanger (250, 30, 200, 30, "area", "green", 2, 1125, 570, false),
+        new areachanger (250, 640, 200, 30, "area", "green", 5, 1125, 100, false)
+    ],
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
+        new areachanger (1050, 640, 200, 30, "area", "green", 1, 325, 80, false),
+        new wall (900, 400, 70, 280, "parede"),
+        new wall (900, 30, 70, 280, "parede"),
+        new wall (100, 400, 70, 280, "parede"),
+        new wall (100, 30, 70, 280, "parede"),
+        new movela (150,300,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 3, 1050, 350),
+        new movela (200,400,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        new movela (800,700,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        new movela (350,200,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        new movela (500,200,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        new movela (630,630,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        new movela (550,600,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 9, 1050, 350),
+        new movela (400,500,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        new movela (300,100,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        new movela (650,370,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 6, 1050, 350),
+        new movela (750,341,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        new movela (621,432,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        new movela (510,577,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        new movela (250,61, 30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        new movela (855,543,30,30, "movel", "red", 200, 800, 100, 700, "esquerda", "x", 3, 1050, 350),
+        new movela (264,230,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        new areachanger (30, 250, 30, 200, "area", "green", 3, 1230, 400, false )
+    ],
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
+        new areachanger (1340, 350, 30, 200, "area", "green", 2, 150, 340, false),
+        new wall (0,530, 1400, 150, "parede"),
+        new wall (1200, 30, 70, 300, "parede"),
+        new movela (170,0,1030,200, "movel", "red", 200, 810, 30, 470, "baixo", "y", 13, 1230, 400),
+        new wall (180,480,100, 50, "parede", "grey"),
+        new wall (330,480,100, 50, "parede", "grey"),
+        new wall (480,480,100, 50, "parede", "grey"),
+        new wall (630,480,100, 50, "parede", "grey"),
+        new wall (630,480,100, 50, "parede", "grey"),
+        new wall (780,480,100, 50, "parede", "grey"),
+        new wall (930,480,100, 50, "parede", "grey"),
+        new wall (1080,480,100, 50, "parede", "grey"),
+        new areachanger (30, 250, 30, 200, "area", "green", 4, 1250, 300, false )
+    ],
+    [
+        new wall (0,0, 1400, 30, "parede", "DarkSlateBlue"),
+        new wall (0,0, 30, 700, "parede", "DarkSlateBlue"),
+        new wall (0,670, 1400, 30, "parede", "DarkSlateBlue"),
+        new wall (1370,0, 30, 700, "parede", "DarkSlateBlue"),
+        new areachanger (1340, 250, 30, 200, "area", "green", 3, 100, 300, false),
+        new wall (43, 50, 45, 45, "dima", "purple"),
+        new wall (1200, 110, 35, 560, "parede", "lavender"),
+        new wall (1100, 30, 35, 560, "parede", "thistle"),
+        new wall (1000, 110, 35, 560, "parede", "plum"),
+        new wall (900, 30, 35, 560, "parede", "orchid"),
+        new wall (800, 110, 35, 560, "parede", "magenta"),
+        new wall (700, 30, 35, 560, "parede", "mediumpurple"),
+        new wall (600, 110, 35, 560, "parede", "blueviolet"),
+        new wall (500, 30, 35, 560, "parede", "darkorchid"),
+        new wall (400, 110, 35, 560, "parede", "darkviolet"),
+        new wall (300, 30, 35, 560, "parede", "darkmagenta"),
+        new wall (200, 110, 35, 560, "parede", "rebeccapurple"),
+        new wall (100, 30, 35, 560, "parede", "indigo"),
+    ],
 
-                [
-                new wall (0,0, 1400, 30, "parede"),
-                new wall (0,0, 30, 700, "parede"),
-                new wall (0,670, 1400, 30, "parede"),
-                new wall (1370,0, 30, 700, "parede"), 
-                new areachanger (1050, 640, 200, 30, "area", "green", 1, 325, 80, false),
-                new wall (900, 400, 70, 280, "parede"),
-                new wall (900, 30, 70, 280, "parede"),
-                new wall (100, 400, 70, 280, "parede"),
-                new wall (100, 30, 70, 280, "parede")
-                ]
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            ]
+
+
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
+        new areachanger (1050, 30, 200, 30, "area", "green",1, 325, 580, false),
+    ]
+]
+
         let activewalls = walls[0]
         let joias = {
-            purple:true,
-            yellow:true,
-            blue:true,
-            darkgreen:true
+            purple:false,
+            yellow:false,
+            blue:false,
+            darkgreen:false
         }
 
         let joiasativas = {
@@ -181,11 +243,11 @@
         { Object.keys(keys).forEach(function(key)
             {keys[key] = false})}
 
-        function kill()
+        function kill(x, y)
         {
             clearmovement()
-            player.x = 50
-            player.y = 50
+            player.x = x
+            player.y = y
             alert("Morreu!")
         }
 
@@ -209,16 +271,16 @@
 
 
             function novaarea(wall)
-            { 
-            
+            {
+
                activewalls = walls[wall.area]
                player.x = wall.spawnx
                player.y = wall.spawny
 
-            
+
             }
 
-        
+
         function gema(cor, wall)
         {
             if (joias[cor] == true)
@@ -261,7 +323,7 @@
                 wall.y = wall.y + wall.speed
             }
             if (iscolliding(wall, player))
-            {kill()}}
+            {kill(wall.respawnx, wall.respawny)}}
 
 
             else
@@ -281,14 +343,14 @@
             }
             if (wall.direcao == "direita")
             {
-                wall.x = wall.x + 15
+                wall.x = wall.x + wall.speed
             }
             else
             {
-                wall.x = wall.x - 15
+                wall.x = wall.x - wall.speed
             }
             if (iscolliding(wall, player))
-            {kill()}
+            {kill(wall.respawnx, wall.respawny)}
 
 
             }
@@ -306,7 +368,7 @@
 
             activewalls.forEach(function(wall)
             {
-            
+
             if (wall.id == "movel")
             {
                 movel(wall)
@@ -324,7 +386,7 @@
                 brush.fillStyle = "black"
                 brush.fillStyle = "black"
             }
-              
+
             )
         }
 
@@ -337,9 +399,9 @@
     {
         keys[event.key] = false
     })
-    
 
-        
+
+
 
 
         function gameloop()
@@ -357,12 +419,12 @@
             {novaarea(wall)
             return requestAnimationFrame(gameloop)}
             else
-            {   
+            {
                 let destrancar = true
                 Object.keys(joiasativas).forEach(function(joia)
                 {
 
-                    
+
                     if (joiasativas[joia] == false)
                 {
                     destrancar = false
@@ -376,7 +438,7 @@
                 }
                 else {if (destrancar == false)
                 {alert("você precisa coletar as joias pra abrir essa porta")
-                player.x = wall.x -80 
+                player.x = wall.x -80
                 player.y = wall.y + 75
                  clearmovement()
                 return requestAnimationFrame(gameloop)}}
@@ -389,6 +451,23 @@
             gema(wall.cor, wall)
             return requestAnimationFrame(gameloop)
         }
+        else
+        if (wall.id == "dima")
+        {
+        if (joias[wall.cor] == false)
+            {alert("Coletou a joia " + wall.cor + "!")
+            joias[wall.cor] = true
+            player.x = wall.x 
+            player.y = wall.y + 120
+            clearmovement()}
+            else
+        {
+            alert("Você ja coletou essa joia")
+            player.x = wall.x 
+            player.y = wall.y + 120
+            clearmovement()
+        }
+        }
         }
             if (keys["w"] || keys["W"]) {player.y = wall.y + wall.height}
             if (keys["s"] || keys["S"]) {player.y = wall.y - player.height}
@@ -399,32 +478,65 @@
 
             if (keys["d"] || keys["D"]) {player.x = player.x + player.speed}
             if (keys["a"] || keys["A"]) {player.x = player.x - player.speed}
-       
-            
-              for (let i = 0; i<activewalls.length; i++)
+
+
+          for (let i = 0; i<activewalls.length; i++)
         {   let wall = activewalls[i]
             if (iscolliding(player, wall))
+
         {   if (wall.id == "area")
-        {
-             if (wall.locked == false)
+        {   if (wall.locked == false)
             {novaarea(wall)
             return requestAnimationFrame(gameloop)}
-             else
+            else
             {
-                alert("você precisa coletar as joias pra abrir essa porta")
-                player.x = wall.x -80 
+                let destrancar = true
+                Object.keys(joiasativas).forEach(function(joia)
+                {
+
+
+                    if (joiasativas[joia] == false)
+                {
+                    destrancar = false
+                }
+
+
+                })
+                 if (destrancar == true)
+                {
+                    wall.locked = false
+                }
+                else {if (destrancar == false)
+                {alert("você precisa coletar as joias pra abrir essa porta")
+                player.x = wall.x -80
                 player.y = wall.y + 75
-                clearmovement()
-                return requestAnimationFrame(gameloop)
+                 clearmovement()
+                return requestAnimationFrame(gameloop)}}
             }
-            
         }
-         else
+        else
         {
             if (wall.id == "joiastore")
         {
             gema(wall.cor, wall)
             return requestAnimationFrame(gameloop)
+        }
+         else
+        if (wall.id == "dima")
+        {
+        if (joias[wall.cor] == false)
+            {alert("Coletou a joia " + wall.cor + "!")
+            joias[wall.cor] = true
+            player.x = wall.x 
+            player.y = wall.y + 120
+            clearmovement()}
+            else
+        {
+            alert("Você ja coletou essa joia")
+            player.x = wall.x 
+            player.y = wall.y + 120
+            clearmovement()
+        }
         }
         }
             if (keys["d"] || keys["D"]) {player.x = wall.x - player.width}
@@ -447,4 +559,4 @@
         gameloop()
     </script>
 </body>
-</html>
+</html
