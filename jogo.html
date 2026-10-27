@@ -21,8 +21,7 @@
 
 
         class wall{
-            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC,
-maxB, direcao, area)
+            constructor(x,y,width,height, id,  cor, maxE, maxD, maxC,maxB, direcao, area, paint)
             {
                 this.x = x
                 this.y = y
@@ -44,14 +43,14 @@ maxB, direcao, area)
                 this.maxB = maxB
                 this.direcao = direcao
                 this.area = area
+                this.paint = paint
             }
         }
 
 
 
         class areachanger{
-            constructor(x,y,width,height, id,  cor, area, spawnx,
-spawny, locked)
+            constructor(x,y,width,height, id,  cor, area, spawnx,spawny, locked)
                 {this.x = x
                 this.y = y
                 this.width = width
@@ -78,10 +77,27 @@ spawny, locked)
             }
         }
 
+        class buttondoor{
+        constructor(x,y,width,height, id, cor,code, paint)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                this.code = code
+                this.paint = paint
+
+            }
+        }
+
+
+
+
 
         class movela{
-            constructor(x,y,width,height, id, cor, maxE, maxD, maxC,
-maxB, direcao, direction, speed, respawnx, respawny)
+            constructor(x,y,width,height, id, cor, maxE, maxD, maxC,maxB, direcao, direction, speed, respawnx, respawny)
             {
                 this.x = x
                 this.y = y
@@ -111,9 +127,9 @@ maxB, direcao, direction, speed, respawnx, respawny)
         new wall (1370,0, 30, 700, "parede"),
         new wall (300, 0, 80, 340, "parede"),
         new wall (500, 400, 80, 300, "parede"),
-        new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
-        new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
-        new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        //new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        //new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        //new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
         new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250, false)
     ],
     [
@@ -144,33 +160,33 @@ maxB, direcao, direction, speed, respawnx, respawny)
         new wall (900, 30, 70, 280, "parede"),
         new wall (100, 400, 70, 280, "parede"),
         new wall (100, 30, 70, 280, "parede"),
-        new movela (150,300,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 3, 1050, 350),
-        new movela (200,400,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
-        new movela (800,700,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
-        new movela (350,200,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
-        new movela (500,200,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
-        new movela (630,630,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
-        new movela (550,600,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 9, 1050, 350),
-        new movela (400,500,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
-        new movela (300,100,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
-        new movela (650,370,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 6, 1050, 350),
-        new movela (750,341,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
-        new movela (621,432,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
-        new movela (510,577,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
-        new movela (250,61, 30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
-        new movela (855,543,30,30, "movel", "red", 200, 800, 100, 700, "esquerda", "x", 3, 1050, 350),
-        new movela (264,230,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
-        new areachanger (30, 250, 30, 200, "area", "green", 3, 1230, 400, false )
+        //new movela (150,300,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 3, 1050, 350),
+        //new movela (200,400,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        //new movela (800,700,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        //new movela (350,200,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        //new movela (500,200,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        //new movela (630,630,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        //new movela (550,600,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 9, 1050, 350),
+        //new movela (400,500,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        //new movela (300,100,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        //new movela (650,370,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 6, 1050, 350),
+        //new movela (750,341,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        //new movela (621,432,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        //new movela (510,577,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        //new movela (250,61, 30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        //new movela (855,543,30,30, "movel", "red", 200, 800, 100, 700, "esquerda", "x", 3, 1050, 350),
+        //new movela (264,230,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        new areachanger (30, 250, 30, 200, "area", "green", 3, 1280, 400, false )
     ],
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1340, 350, 30, 200, "area", "green", 2, 150, 340, false),
+        new areachanger (1340, 30, 30, 200, "area", "green", 2, 120, 340, false),
         new wall (0,530, 1400, 150, "parede"),
         new wall (1200, 30, 70, 300, "parede"),
-        new movela (170,0,1030,200, "movel", "red", 200, 810, 30, 470, "baixo", "y", 13, 1230, 400),
+        //new movela (170,0,1030,200, "movel", "red", 200, 810, 30, 470, "baixo", "y", 13, 1230, 400),
         new wall (180,480,100, 50, "parede", "grey"),
         new wall (330,480,100, 50, "parede", "grey"),
         new wall (480,480,100, 50, "parede", "grey"),
@@ -210,6 +226,22 @@ maxB, direcao, direction, speed, respawnx, respawny)
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
         new areachanger (1050, 30, 200, 30, "area", "green",1, 325, 580, false),
+        new buttondoor(600, 300, 35, 35, "button", "cyan", "lord"),
+        new areachanger (30, 250, 30, 200, "area", "green", 6, 1280, 250, false),
+        new wall (30, 150, 170, 35, "parede"),
+        new wall (30, 520, 170, 35, "parede"),
+        new wall (170,150, 30, 125, "parede"),
+        new wall (170,430, 30, 125, "parede"),
+        new buttondoor(172, 270, 25, 165, "door", "cyan", "lord"),
+
+    ],
+
+
+    [
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),
+        new wall (1370,0, 30, 700, "parede"),
     ]
 ]
 
@@ -373,7 +405,8 @@ maxB, direcao, direction, speed, respawnx, respawny)
             {
                 movel(wall)
             }
-            if (wall.cor)
+            if (wall.paint != false)
+            {if (wall.cor)
             {
                 brush.fillStyle = wall.cor
             }
@@ -384,7 +417,7 @@ maxB, direcao, direction, speed, respawnx, respawny)
                     wall.height
                 )
                 brush.fillStyle = "black"
-                brush.fillStyle = "black"
+            }
             }
 
             )
@@ -468,6 +501,22 @@ maxB, direcao, direction, speed, respawnx, respawny)
             clearmovement()
         }
         }
+        else 
+        {
+            if (wall.id == "button")
+        {
+            activewalls.forEach(function(walla)
+        {
+            if (walla.id == "door")
+            {
+                if (walla.code == wall.code)
+                {
+                    walla.paint = false
+                }
+            }
+        })
+        }
+        }
         }
             if (keys["w"] || keys["W"]) {player.y = wall.y + wall.height}
             if (keys["s"] || keys["S"]) {player.y = wall.y - player.height}
@@ -536,6 +585,22 @@ maxB, direcao, direction, speed, respawnx, respawny)
             player.x = wall.x 
             player.y = wall.y + 120
             clearmovement()
+        }
+        }
+        else 
+        {
+            if (wall.id == "button")
+        {
+            activewalls.forEach(function(walla)
+        {
+            if (walla.id == "door")
+            {
+                if (walla.code == wall.code)
+                {
+                    walla.paint = false
+                }
+            }
+        })
         }
         }
         }
