@@ -660,7 +660,7 @@
         new checkpoint(30,520,300,700, "ghost", "check", "blue",0, 125, 570),
         new wall(700, 200, 20, 200),
         new buttondoor(50,50, 35 , 35, "button", "Chocolate", "pepsi",40,85,true),
-        new areachanger (1340, 50, 30, 200, "area", "green", 11, 100, 125, false),
+        new areachanger (1340, 50, 30, 200, "area", "green", 11, 100, 325, false),
         new wall (1200, 30, 20, 100),
         new wall (1200, 200, 20, 100),
         new wall (1200, 300, 200, 20),
@@ -669,19 +669,44 @@
         new wall(110, 30, 20,250),
         new checkpoint(30,30,100,250, "ghost", "check", "blue",0, 40,85),
         new checkpoint(1200,30,300,290, "ghost", "check", "blue",0, 1270, 125),
-        new torreta(560,300, 40,40, "torreta", "orange",0, 0.001, 20, 20, 20),
     ],
 
 
     [
-        new areachanger (30, 50, 30, 200, "area", "green", 10, 1270, 125, false),
+        new areachanger (30, 250, 30, 200, "area", "green", 10, 1270, 125, false),
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),  
         new wall (1370,0, 30, 700, "parede"),
-        new torreta(300,300, 40,40, "torreta", "orange",0, 0.1, 35, 100, 100),
-        //new torreta(300,300, 40,40, "torreta", "orange",0, 0.001, 12, 20, 20),
-        new wall(700, 200, 40, 270)
+        new torreta(300,70, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(600,70, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(900,70, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(1200,70, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(300,570, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(600,570, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(900,570, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new torreta(1200,570, 40,40, "torreta", "orange",0, 0.7, 8, 20, 20),
+        new wall(160, 250, 30, 200),
+        new checkpoint(30,30,200,700, "ghost", "check", "blue",0, 100, 325),
+        //new wall(700, 250, 200, 200,),
+        new wall(1250, 200, 30, 300),
+        new areachanger (1340, 250, 30, 200, "area", "green", 12, 100, 325, false),
+        new wall(700, 280, 30, 30, "parede", "blue"),
+        new wall(700, 250, 200, 30),
+        new wall(700, 420, 200, 30),
+        new wall(700, 390, 30, 30, "parede", "blue"),
+        new wall(870, 280, 30, 30, "parede", "blue"),
+        new wall(870, 390, 30, 30, "parede", "blue"),
+        new buttondoor(706, 306, 15, 88, "door", "Chocolate", "pepsi",85,135,true),
+    ],
+
+
+    [
+        new areachanger (30, 250, 30, 200, "area", "green", 11, 1270, 125, false),
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),  
+        new wall (1370,0, 30, 700, "parede"),
     ]
 ]
 
@@ -895,6 +920,7 @@ let projectiles =
             {
                 alert("Morreu!")
             })
+            clearmovement()
         }
 
 
