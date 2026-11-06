@@ -4,24 +4,36 @@
 
 </head>
 <body>
-    <canvas id = "canvas" width="1700" height="2000"></canvas>
+    <canvas id="canvas" width="2200" height="2500" style="margin-top: -500px; margin-left: -500px;"></canvas>
+
+
+
     <script>
 
 
         let keys = {}
         let canvas = document.getElementById("canvas")
         let brush = canvas.getContext("2d")
+        brush.translate(500, 500); 
+        //let who = [
+           // new wall(200, 300, 50, 50),
+           // new wall(210, 305, 6, 3)
+        //]
+
+        
         let player = {
             x:50,
             y:50,
             width:50,
             height:50,
-            speed:10
+            speed:10,
+            checkx:50,
+            checky:50
         }
 
 
         class wall{
-            constructor(x,y,width,height, id,  cor, paint, )
+            constructor(x,y,width,height, id,  cor, paint, transparency )
             {
                 this.x = x
                 this.y = y
@@ -30,10 +42,26 @@
                 this.id = id
                 this.cor = cor
                 this.paint = paint
+                this.transparency = transparency
             }
         }
 
 
+
+        class gemau{
+            constructor(x,y,width,height, id,  cor, backx, backy)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                this.backx = backx
+                this.backy = backy
+                
+            }
+        }
 
         class ghost{
             constructor(x,y,width,height, id,  cor, paint, transparency)
@@ -50,6 +78,40 @@
         }
 
 
+        class evento{
+            constructor(x,y,width,height, id, eventu, transparency,triggered, happened, hastohappen)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.eventu = eventu
+                this.transparency = transparency
+                this.triggered = triggered
+                this.happened = happened
+                this.hastohappen = hastohappen
+            }
+        }
+
+
+        class checkpoint{
+            constructor(x,y,width,height, id, code,  cor, transparency, coordx, coordy)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.code = code
+                this.cor = cor
+                this.transparency = transparency
+                this.coordx = coordx
+                this.coordy = coordy
+            }
+        }
+
+
 
         class areachanger{
             constructor(x,y,width,height, id,  cor, area, spawnx,spawny, locked)
@@ -62,7 +124,8 @@
                 this.area = area
                 this.spawnx = spawnx
                 this.spawny = spawny
-                this.locked = locked}
+                this.locked = locked
+            }
         }
 
 
@@ -80,8 +143,7 @@
         }
 
         class buttondoor{
-        constructor(x,y,width,height, id, cor,code,backx,backy, paint,
-transparency)
+        constructor(x,y,width,height, id, cor,code,backx,backy, paint, transparency)
             {
                 this.x = x
                 this.y = y
@@ -98,13 +160,43 @@ transparency)
         }
 
 
+        class projetil{
+            constructor(x,y,width,height, id,  cor, direcx, direcy, speed)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                this.direcx = direcx
+                this.direcy = direcy
+                this.speed = speed
+            }
+        }
 
+
+
+        class torreta{
+            constructor(x,y,width,height, id,  cor,ultimodisparo, frequency, speed, sizex, sizey)
+            {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+                this.id = id
+                this.cor = cor
+                this.ultimodisparo = ultimodisparo
+                this.frequency = frequency
+                this.speed = speed
+                this.sizex = sizex
+                this.sizey = sizey
+            }
+        }
 
 
         class movela{
-            constructor(x,y,width,height, id, cor, maxE, maxD,
-maxC,maxB, direcao, direction, speed, respawnx, respawny,
-transparency)
+            constructor(x,y,width,height, id, cor, maxE, maxD, maxC,maxB, direcao, direction, speed, respawnx, respawny, transparency)
             {
                 this.x = x
                 this.y = y
@@ -135,67 +227,71 @@ transparency)
         new wall (1370,0, 30, 700, "parede"),
         new wall (300, 0, 80, 340, "parede"),
         new wall (500, 400, 80, 300, "parede"),
-        //new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670,"cima","y", 15, 50, 50),
-        //new movela (1100, 330, 80, 340, "movel", "red", 0,0,30, 670,"cima","y", 15, 50, 50),
-        //new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670,"cima","y", 15, 50, 50),
-        new areachanger (1340, 250, 30, 200, "area", "green", 1, 100,250, false),
-        new areachanger (30, 250, 30, 200, "area", "green", 6, 1280,325, false),
+        new movela (900, 50, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        new movela (1100, 330, 80, 340, "movel", "red",                                        0,0,30, 670, "cima","y", 15, 50, 50),
+        new movela (700, 330, 80, 340, "movel", "red", 0,0,30, 670, "cima","y", 15, 50, 50),
+        new areachanger (1340, 250, 30, 200, "area", "green", 1, 100, 250, false),
+        new areachanger (30, 250, 30, 200, "area", "green", 10, 1280, 125, false),
+        new checkpoint(30,30,400,700, "ghost", "check", "black",0, 50, 50),
     ],
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (30, 250, 30, 200, "area", "green", 0, 1200,250, false ),
+        new areachanger (30, 250, 30, 200, "area", "green", 0, 1200, 250, false ),
         new wall (1000, 125, 70, 70, "joiastore", "purple"),
         new wall (1000, 250, 70, 70, "joiastore", "yellow"),
         new wall (1000, 375, 70, 70, "joiastore", "blue"),
         new wall (1000, 500, 70, 70, "joiastore", "darkgreen"),
-        new areachanger (1340, 250, 30, 200, "area", "green", 0, 1200,250, true),
+        new areachanger (1340, 250, 30, 200, "area", "green", 0, 1200, 250, true),
         new light (1355, 200, 15, 35, "yellow", "grey"),
         new light (1355, 150, 15, 35, "purple", "grey"),
         new light (1355, 465, 15, 35, "blue", "grey"),
         new light (1355, 515, 15, 35, "darkgreen", "grey"),
-        new areachanger (250, 30, 200, 30, "area", "green", 2, 1125,570, false),
-        new areachanger (250, 640, 200, 30, "area", "green", 5, 1125,100, false)
+        new areachanger (250, 30, 200, 30, "area", "green", 2, 1125, 570, false),
+        new areachanger (250, 640, 200, 30, "area", "green", 5, 1125, 100, false),
+        new areachanger (700, 30, 200, 30, "area", "green", 10, 125, 570, false),
     ],
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1050, 640, 200, 30, "area", "green", 1, 325,80, false),
+        new areachanger (1050, 640, 200, 30, "area", "green", 1, 325, 80, false),
         new wall (900, 400, 70, 280, "parede"),
         new wall (900, 30, 70, 280, "parede"),
         new wall (100, 400, 70, 280, "parede"),
         new wall (100, 30, 70, 280, "parede"),
-        //new movela (150,300,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 3, 1050, 350),
-        //new movela (200,400,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 8, 1050, 350),
-        //new movela (800,700,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 5, 1050, 350),
-        //new movela (350,200,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 7, 1050, 350),
-        //new movela (500,200,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 6, 1050, 350),
-        //new movela (630,630,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 7, 1050, 350),
-        //new movela (550,600,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 9, 1050, 350),
-        //new movela (400,500,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 8, 1050, 350),
-        //new movela (300,100,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 7, 1050, 350),
-        //new movela (650,370,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 6, 1050, 350),
-        //new movela (750,341,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 7, 1050, 350),
-        //new movela (621,432,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 6, 1050, 350),
-        //new movela (510,577,30,30, "movel", "red", 200, 800, 40,650, "direita", "y", 5, 1050, 350),
-        //new movela (250,61, 30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 4, 1050, 350),
-        //new movela (855,543,30,30, "movel", "red", 200, 800, 100,700, "esquerda", "x", 3, 1050, 350),
-        //new movela (264,230,30,30, "movel", "red", 200, 800, 100,700, "direita", "x", 4, 1050, 350),
-        new areachanger (30, 250, 30, 200, "area", "green", 3, 1280,100, false )
+        new movela (150,300,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 3, 1050, 350),
+        new movela (200,400,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        new movela (800,700,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        new movela (350,200,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        new movela (500,200,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        new movela (630,630,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        new movela (550,600,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 9, 1050, 350),
+        new movela (400,500,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 8, 1050, 350),
+        new movela (300,100,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 7, 1050, 350),
+        new movela (650,370,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 6, 1050, 350),
+        new movela (750,341,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 7, 1050, 350),
+        new movela (621,432,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 6, 1050, 350),
+        new movela (510,577,30,30, "movel", "red", 200, 800, 40, 650, "direita", "y", 5, 1050, 350),
+        new movela (250,61, 30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        new movela (855,543,30,30, "movel", "red", 200, 800, 100, 700, "esquerda", "x", 3, 1050, 350),
+        new movela (264,230,30,30, "movel", "red", 200, 800, 100, 700, "direita", "x", 4, 1050, 350),
+        new areachanger (30, 250, 30, 200, "area", "green", 3, 1280, 100, false ),
+        new checkpoint(30,30,140,700, "ghost", "check", "black",0, 120, 340),
+        new checkpoint(900,30,600,700, "ghost", "check", "black",0, 1050, 350),
     ],
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1340, 30, 30, 200, "area", "green", 2, 120,340, false),
+        new areachanger (1340, 30, 30, 200, "area", "green", 2, 120, 340, false),
         new wall (0,530, 1400, 150, "parede"),
         new wall (1200, 30, 70, 300, "parede"),
-        //new movela (170,0,1030,200, "movel", "red", 200, 810, 30,470, "baixo", "y", 13, 1230, 400),
+        new movela (170,0,1030,200, "movel", "red", 200, 810, 30, 470, "baixo", "y", 13, 1230, 400),
         new wall (180,480,100, 50, "parede", "grey"),
         new wall (330,480,100, 50, "parede", "grey"),
         new wall (480,480,100, 50, "parede", "grey"),
@@ -204,15 +300,17 @@ transparency)
         new wall (780,480,100, 50, "parede", "grey"),
         new wall (930,480,100, 50, "parede", "grey"),
         new wall (1080,480,100, 50, "parede", "grey"),
-        new areachanger (30, 250, 30, 200, "area", "green", 4, 1250,300, false )
+        new areachanger (30, 250, 30, 200, "area", "green", 4, 1250, 300, false ),
+        new checkpoint(30,30,130,700, "ghost", "check", "black",0, 60, 60),
+        new checkpoint(1200,30,230,700, "ghost", "check", "black",0, 1230, 400),
     ],
     [
         new wall (0,0, 1400, 30, "parede", "DarkSlateBlue"),
         new wall (0,0, 30, 700, "parede", "DarkSlateBlue"),
         new wall (0,670, 1400, 30, "parede", "DarkSlateBlue"),
         new wall (1370,0, 30, 700, "parede", "DarkSlateBlue"),
-        new areachanger (1340, 250, 30, 200, "area", "green", 3, 100,300, false),
-        new wall (43, 50, 45, 45, "dima", "purple"),
+        new areachanger (1340, 250, 30, 200, "area", "green", 3, 100, 300, false),
+        new gemau(43, 50, 45, 45, "dima", "purple", 40, 110),
         new wall (1200, 110, 35, 560, "parede", "lavender"),
         new wall (1100, 30, 35, 560, "parede", "thistle"),
         new wall (1000, 110, 35, 560, "parede", "plum"),
@@ -236,110 +334,113 @@ transparency)
         new wall (1370,0, 30, 700, "parede"),
         new areachanger (1050, 30, 200, 30, "area", "green",1, 325, 580, false),
         new buttondoor(1250, 550, 35, 35, "button", "cyan", "lord", 1200, 550),
-        new areachanger (30, 250, 30, 200, "area", "green", 6, 1280,125, false),
+        new areachanger (30, 250, 30, 200, "area", "green", 6, 1280, 125, false),
         new wall (30, 150, 170, 35, "parede"),
         new wall (30, 520, 170, 35, "parede"),
         new wall (170,150, 30, 125, "parede"),
         new wall (170,430, 30, 125, "parede"),
-       // new buttondoor(172, 270, 25, 165, "door", "cyan", "lord",0,0, true),
+        new buttondoor(172, 270, 25, 165, "door", "cyan", "lord",0,0, true),
         new wall (1100, 450, 300, 35, "parede"),
         new wall (1070, 450, 35, 120, "parede"),
         new buttondoor(1075, 565, 25, 109, "door", "tomato", "janta",0,0, true),
         new buttondoor(70, 600, 35, 35, "button", "tomato", "janta", 105, 600),
 
     ],
-
+   
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1340, 50, 30, 200, "area", "green", 5, 100,325, false),
-        new areachanger (30, 450, 30, 200, "area", "green", 7, 1280,300, false ),
+        new areachanger (1340, 50, 30, 200, "area", "green", 5, 100, 325, false),
+        new areachanger (30, 450, 30, 200, "area", "green", 7, 1280, 300, false ),
         new wall(30, 370, 1150, 30),
         new wall(160, 370, 30, 100),
         new wall(160, 567, 30, 110),
-        //new buttondoor(167, 467, 15, 103, "door", "Violet", "bomba",105, 600, true),
+        new buttondoor(167, 467, 15, 103, "door", "Violet", "bomba", 105, 600, true),
+        new wall(210, 370, 30, 100),
+        new wall(210, 567, 30, 110),
+        new buttondoor(217, 467, 15, 103, "door", "DarkSlateGray", "divergente", 105, 600, false),
         new wall(1200, 30, 30, 140),
-        new areachanger (350, 640, 200, 30, "area", "green", 9, 1125,100, false),
+        new areachanger (350, 640, 200, 30, "area", "green", 9, 500, 160, false),
         new wall(270, 530, 30, 140),
         new wall(270, 530, 100, 30),
         new wall(525, 530, 103, 30),
         new wall(600, 530, 30, 140),
-        //new buttondoor(365, 537, 165, 15, "door", "Sienna", "caixa",105, 600, true),
-        new areachanger (1040, 640, 200, 30, "area", "green", 9, 1125,100, false),
+        new buttondoor(365, 537, 165, 15, "door", "Sienna", "caixa", 105, 600, true),
+         new areachanger (1040, 640, 200, 30, "area", "green", 9, 1125, 100, false),
         new wall(960, 530, 30, 140),
         new wall(960, 530, 100, 30),
         new wall(1215, 530, 103, 30),
         new wall(1290, 530, 30, 140),
-        //new buttondoor(1055, 537, 165, 15, "door", "DarkSlateGray","divergente", 105, 600, true),
-        new buttondoor(310, 570, 35, 35, "button", "Violet", "bomba",345, 570, true),
-        new buttondoor(555, 570, 35, 35, "button", "Sienna", "caixa",505, 570, true),
-        new buttondoor(50, 50, 35, 35, "button", "DarkSlateGray","divergente", 40, 85, true),
-        new wall(105, 30, 15,150),
-        new movela (140,30,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (175,40,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (210,50,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (245,60,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (280,70,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (315,80,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (350,90,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (385,100,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (420,110,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (455,120,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (490,130,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (525,140,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (560,150,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (595,140,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (630,130,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (665,120,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (700,110,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (735,100,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (770,90,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (805,80,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (840,70,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (875,60,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (910,50,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (945,40,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (980,30,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (1015,40,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (1050,50,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (1085,60,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (1120,70,25,25, "movel", "red", 200, 800, 30, 150,"direita", "y", 5, 1280, 125),
-        new movela (140,220,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (175,230,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (210,240,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (245,250,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (280,260,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (315,270,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (350,280,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (385,290,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (420,300,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (455,310,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (490,320,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (525,330,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (560,340,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (595,340,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (630,350,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (665,360,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (700,370,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (735,360,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (770,350,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (805,340,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (840,330,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (875,320,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (910,310,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (945,300,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (980,290,25,25, "movel", "red", 200, 800, 220, 360,"direita", "y", 5, 1280, 125),
-        new movela (1015,280,25,25, "movel", "red", 200, 800, 220,360, "direita", "y", 5, 1280, 125),
-        new movela (1050,270,25,25, "movel", "red", 200, 800, 220,360, "direita", "y", 5, 1280, 125),
-        new movela (1085,260,25,25, "movel", "red", 200, 800, 220,360, "direita", "y", 5, 1280, 125),
-        new movela (1120,250,25,25, "movel", "red", 200, 800, 220,360, "direita", "y", 5, 1280, 125),
-        new movela (1155,240,25,25, "movel", "red", 200, 800, 220,360, "direita", "y", 5, 1280, 125),
-        new movela (140,180,20,20, "movel", "red", 140, 1100, 220,360, "direita", "x", 3, 1280, 125),
-        new movela (520,180,20,20, "movel", "red", 140, 1100, 220,360, "direita", "x", 3, 1280, 125),
-        new movela (1000,180,20,20, "movel", "red", 140, 1100, 220,360, "direita", "x", 3, 1280, 125),
-        new ghost (120, 150,1080, 70, "ghost", "darkviolet", true, 0.5)
+        new buttondoor(1055, 537, 165, 15, "door", "DarkSlateGray", "divergente", 105, 600, true),
+        new buttondoor(310, 570, 35, 35, "button", "Violet", "bomba", 345, 570, true),
+        new buttondoor(555, 570, 35, 35, "button", "Sienna", "caixa", 505, 570, true),
+        new buttondoor(50, 50, 35, 35, "button", "DarkSlateGray", "divergente", 40, 85, true),
+        new wall(105, 30, 15,140),
+        new movela (140,30,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (175,40,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (210,50,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (245,60,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (280,70,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (315,80,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (350,90,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (385,100,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (420,110,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (455,120,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (490,130,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (525,140,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (560,150,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (595,140,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (630,130,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (665,120,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (700,110,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (735,100,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (770,90,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (805,80,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (840,70,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (875,60,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (910,50,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (945,40,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (980,30,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (1015,40,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (1050,50,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (1085,60,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (1120,70,25,25, "movel", "red", 200, 800, 30, 150, "direita", "y", 5, 1280, 125),
+        new movela (140,220,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (175,230,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (210,240,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (245,250,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (280,260,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (315,270,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (350,280,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (385,290,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (420,300,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (455,310,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (490,320,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (525,330,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (560,340,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (595,340,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (630,350,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (665,360,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (700,370,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (735,360,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (770,350,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (805,340,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (840,330,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (875,320,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (910,310,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (945,300,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (980,290,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (1015,280,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (1050,270,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (1085,260,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (1120,250,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (1155,240,25,25, "movel", "red", 200, 800, 220, 360, "direita", "y", 5, 1280, 125),
+        new movela (140,180,30,30, "movel", "red", 140, 1100, 220, 360, "direita", "x", 5, 1280, 125),
+        new movela (900,180,30,30, "movel", "red", 140, 1100, 220, 360, "direita", "x", 5, 1280, 125),
+        new ghost (120, 150,1080, 70, "ghost", "darkviolet", true, 0.5),
+        new checkpoint(1200,30,400,700, "ghost", "check", "black",0, 1280, 125),
     ],
 
 
@@ -349,37 +450,37 @@ transparency)
         new wall (0,0, 30, 700, "parede"),
         new wall (0,670, 1400, 30, "parede"),
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1340, 250, 30, 200, "area", "green", 6, 100,530, false),
-        new areachanger (100, 640, 200, 30, "area", "green", 8, 175,100, false),
+        new areachanger (1340, 250, 30, 200, "area", "green", 6, 100, 530, false),
+        new areachanger (40, 640, 200, 30, "area", "green", 8, 175, 100, false),
         new wall (330,570, 15, 100, "parede"),
         new wall(30, 570, 100, 15, "parede"),
         new wall(245, 570, 85, 15, "parede"),
-        new buttondoor(125, 572, 123, 10, "door", "chartreuse","gato",0,0,true),
+        new buttondoor(125, 572, 123, 10, "door", "chartreuse", "gato",0,0,true),
         new buttondoor(70, 70, 35, 35, "button", "chartreuse", "gato",70, 105,),
         new wall (145,30, 15, 300, "parede"),
         new buttondoor(28,145, 121, 10, "door", "coral", "lanterna",0,0,true),
         new wall (115,450, 15, 120, "parede"),
         new wall (115,450, 300, 15, "parede"),
-        new buttondoor(55, 500, 35, 35, "button", "fuchsia","cortina",55, 450,),
+        new buttondoor(55, 500, 35, 35, "button", "fuchsia", "cortina",55, 450,),
         new wall (145,330, 135, 15, "parede"),
         new wall (897,30, 15, 95, "parede"),
         new wall (800,200, 297, 15, "parede"),
         new buttondoor(900, 120, 10, 82, "door", "fuchsia", "cortina",0,0,true),
         new wall (1097,30, 15,185, "parede"),
         new wall (1200, 140, 15, 380),
-        new buttondoor(1000, 80, 35, 35, "button", "MediumAquamarine","cavalo", 1000, 115,true),
+        new buttondoor(1000, 80, 35, 35, "button", "MediumAquamarine", "cavalo", 1000, 115,true),
         new wall (1000, 300, 100, 15),
-        new buttondoor(1096, 302, 107, 10, "door", "MediumAquamarine","cavalo", 1000, 115,true),
+        new buttondoor(1096, 302, 107, 10, "door", "MediumAquamarine", "cavalo", 1000, 115,true),
         new wall (1200, 140, 120, 15),
         new wall (780, 110, 120, 15),
         new wall (1000, 300, 15, 140),
         new wall (900, 300, 15, 260),
         new wall (970, 570, 15, 100),
         new wall (970, 570, 180, 15),
-        new buttondoor (1130, 580, 10, 93,"door", "plum", "garrafa",1000, 115,true),
+        new buttondoor (1130, 580, 10, 93,"door", "plum", "garrafa", 1000, 115,true),
         new wall (1000, 430, 100, 15),
-        new buttondoor (1097, 432, 105, 10,"door", "darkTurquoise","tripleb", 1000, 115,false),
-        new buttondoor (1070, 350, 35, 35,"button", "darkTurquoise","tripleb", 1105, 350,true),
+        new buttondoor (1097, 432, 105, 10,"door", "darkTurquoise", "tripleb", 1000, 115,false),
+        new buttondoor (1070, 350, 35, 35,"button", "darkTurquoise", "tripleb", 1105, 350,true),
         new wall (785, 200, 15, 120),
         new wall (785, 200, 120, 15),
         new wall (780, 450, 120, 15),
@@ -394,94 +495,201 @@ transparency)
         new wall (700, 30, 15, 100),
         new wall (700, 185, 15, 100),
         new wall (400, 100, 120, 15),
-        new buttondoor(611, 200, 94, 10, "door", "MediumAquamarine","cavalo", 1000, 115,false),
-        new buttondoor(505, 27, 10, 77, "door", "darkTurquoise","tripleb", 1000, 115,true),
-        new buttondoor (435, 45, 35, 35,"button", "plum", "garrafa",470,45 ,true),
-        new buttondoor(662, 452, 121, 10, "door", "RosyBrown","carrega",0,0,true),
-        new buttondoor(860, 490, 35, 35, "button", "OliveDrab","instintos",810,480,true),
-        new buttondoor(702, 126, 10, 63, "door", "fuchsia","cortina",0,0,false),
-        new buttondoor(710, 270, 80, 10, "door", "OliveDrab","instintos",650,500,true),
-        new buttondoor(272, 375, 10, 79, "door", "OliveDrab","instintos",650,500,false),
-        new buttondoor(850, 50, 35, 35, "button", "RosyBrown","carrega",800,40,true),
-        new buttondoor(653, 605, 10, 68, "door", "RosyBrown","carrega",800,40,false),
-        new buttondoor(902, 211, 10, 92, "door", "OliveDrab","instintos",800,40,false),
-        new buttondoor(711, 112, 73, 10, "door", "OliveDrab","instintos",650,500,false),
-        new buttondoor(602, 27, 10, 126, "door", "fuchsia","cortina",0,0,false),
-        new buttondoor (800, 27, 10, 86,"door", "plum", "garrafa",470,45 ,false),
-        new buttondoor(911, 500, 294, 10, "door", "RosyBrown","carrega",0,0,false),
-        new buttondoor(1108, 200, 97, 10, "door", "RosyBrown","carrega",0,0,false),
-        new buttondoor(1000, 610, 35, 35, "button","MediumSpringGreen", "parte",1035,620,true),
-        new buttondoor(156, 200, 118, 10, "door", "MediumSpringGreen","parte",0,0,true),
+        new buttondoor(611, 200, 94, 10, "door", "MediumAquamarine", "cavalo", 1000, 115,false),
+        new buttondoor(505, 27, 10, 77, "door", "darkTurquoise", "tripleb", 1000, 115,true),
+        new buttondoor (435, 45, 35, 35,"button", "plum", "garrafa", 470,45 ,true),
+        new buttondoor(662, 452, 121, 10, "door", "RosyBrown", "carrega",0,0,true),
+        new buttondoor(860, 490, 35, 35, "button", "OliveDrab", "instintos",810,480,true),
+        new buttondoor(702, 126, 10, 63, "door", "fuchsia", "cortina",0,0,false),
+        new buttondoor(710, 270, 80, 10, "door", "OliveDrab", "instintos",650,500,true),
+        new buttondoor(272, 375, 10, 79, "door", "OliveDrab", "instintos",650,500,false),
+        new buttondoor(850, 50, 35, 35, "button", "RosyBrown", "carrega",800,40,true),
+        new buttondoor(653, 605, 10, 68, "door", "RosyBrown", "carrega",800,40,false),
+        new buttondoor(902, 211, 10, 92, "door", "OliveDrab", "instintos",800,40,false),
+        new buttondoor(711, 112, 73, 10, "door", "OliveDrab", "instintos",650,500,false),
+        new buttondoor(602, 27, 10, 126, "door", "fuchsia", "cortina",0,0,false),
+        new buttondoor (800, 27, 10, 86,"door", "plum", "garrafa", 470,45 ,false),
+        new buttondoor(911, 500, 294, 10, "door", "RosyBrown", "carrega",0,0,false),
+        new buttondoor(1108, 200, 97, 10, "door", "RosyBrown", "carrega",0,0,false),
+        new buttondoor(1000, 610, 35, 35, "button", "MediumSpringGreen", "parte",1035,620,true),
+        new buttondoor(156, 200, 118, 10, "door", "MediumSpringGreen", "parte",0,0,true),
         new buttondoor(411, 210, 193, 10, "door", "Navy", "peru",0,0,true),
-        new buttondoor(300, 458, 10, 117, "door", "MediumSpringGreen","parte",0,0,false),
+        new buttondoor(300, 458, 10, 117, "door", "MediumSpringGreen", "parte",0,0,false),
         new buttondoor(200, 260, 35, 35, "button", "Navy", "peru",185,210,true),
-        new buttondoor(540, 240, 35, 35, "button", "Yellow","longe",530,190,true),
+        new buttondoor(540, 240, 35, 35, "button", "Yellow", "longe",530,190,true),
         new buttondoor(342, 600, 200, 10, "door", "Yellow", "longe",0,0,true),
-        new buttondoor(490, 620, 35, 35, "button", "coral","lanterna",480,570,true),
-        new buttondoor(280, 260, 123, 10, "door", "OliveDrab","instintos",650,500,true),
-        new buttondoor(280, 160, 123, 10, "door", "fuchsia","cortina",0,0,true),
-        new buttondoor(272, 27, 10, 107, "door", "RosyBrown","carrega",800,40,true),
+        new buttondoor(490, 620, 35, 35, "button", "coral", "lanterna",480,570,true),
+        new buttondoor(280, 260, 123, 10, "door", "OliveDrab", "instintos",650,500,true),
+        new buttondoor(280, 160, 123, 10, "door", "fuchsia", "cortina",0,0,true),
+        new buttondoor(272, 27, 10, 107, "door", "RosyBrown", "carrega",800,40,true),
         new buttondoor(250, 458, 10, 117, "door", "Navy", "peru",185,210,false),
     ],
 
 
     [
-        new wall (0,0, 1400, 30, "parede"),
-        new wall (0,0, 30, 700, "parede"),
-        new wall (0,670, 1400, 30, "parede"),
-        new wall (1370,0, 30, 700, "parede"),
-        new areachanger (100, 30, 200, 30, "area", "green", 9, 175, 550, false),
+        new wall (0,0, 1400, 30, "parede", "darkblue"),
+        new wall (0,0, 30, 700, "parede", "darkblue"),
+        new wall (0,670, 1400, 30, "parede", "darkblue"),  
+        new wall (1370,0, 30, 700, "parede", "darkblue"),
+        new areachanger (100, 30, 200, 30, "area", "green", 7, 270, 590, false),
+        new evento(200,30,100,900, "ghost","blueappear", 0, false),
+        new wall (1200, 320, 45, 45, "parede", "DodgerBlue"),
+        new wall (1200, 365, 45, 45, "parede", "MediumBlue"),
+        new wall (1200, 275, 45, 45, "parede", "MediumBlue"),
+        new wall (1200, 230, 45, 45, "parede", "blue"),
+        new wall (1200, 410, 45, 45, "parede", "blue"),
+        new wall (1155, 455, 45, 45, "parede", "MediumBlue"),
+        new wall (1155, 185, 45, 45, "parede", "MediumBlue"),
+        new wall (1110, 140, 45, 45, "parede", "blue"), 
+        new wall (1065, 140, 45, 45, "parede", "MediumBlue"),
+        new wall (1020, 140, 45, 45, "parede", "DodgerBlue"),
+        new wall (975, 140, 45, 45, "parede", "MediumBlue"),
+        new wall (930, 140, 45, 45, "parede", "blue"),
+        new wall (1110, 500, 45, 45, "parede", "blue"), 
+        new wall (1065, 500, 45, 45, "parede", "MediumBlue"),
+        new wall (1020, 500, 45, 45, "parede", "DodgerBlue"),
+        new wall (975, 500, 45, 45, "parede", "MediumBlue"),
+        new wall (930, 500, 45, 45, "parede", "blue"),
+        new wall (885, 185, 45, 45, "parede", "MediumBlue"),
+        new wall (885, 455, 45, 45, "parede", "MediumBlue"),  
+        new wall (840, 230, 45, 45, "parede", "blue"),
+        new wall (840, 410, 45, 45, "parede", "blue"),            
+        new ghost (930, 185,225, 315, "ghost", "blue", true, 0.6),
+        new ghost (885, 230,45, 225, "ghost", "blue", true, 0.6,),
+        new ghost (1155, 230,45, 225, "ghost", "blue", true, 0.6),
+        new ghost (860, 275,25, 135, "ghost", "blue", true, 0.6),
+        new gemau (1020, 320, 45, 45, "dima", "blue",960, 318),     
     ],
 
     [
         new wall (0,0, 1400, 30, "parede"),
         new wall (0,0, 30, 700, "parede"),
-        new wall (0,670, 1400, 30, "parede"),
+        new wall (0,670, 1400, 30, "parede"),  
         new wall (1370,0, 30, 700, "parede"),
-        new areachanger (1040, 30, 200, 30, "area", "green", 6, 1125,580, false),
+        new areachanger (1040, 30, 200, 30, "area", "green", 6, 1125, 580, false),
         new areachanger (350, 30, 200, 30, "area", "green", 6, 430, 580, false),
         new wall(210,30, 20, 580),
         new wall(290,30, 20, 130),
         new wall(290,160, 100, 20),
         new wall(507,160, 100, 20),
         new wall(587,30, 20, 150),
-        new wall(340,320, 20, 380),
+        new wall(300,320, 20, 380),
         new wall(30, 100, 40, 20),
         new wall(170, 100, 40, 20,),
         new buttondoor(387, 162, 123, 15, "door", "Lime", "primo",800,40,true),
         new buttondoor(105, 50, 35, 35, "button", "Lime", "primo",90,85,true),
-        new buttondoor(67, 102, 106 , 15, "door", "MediumVioletRed","gilete",800,40,true),
+        new buttondoor(67, 102, 106 , 15, "door", "MediumVioletRed", "gilete",800,40,true),
         new wall(30, 250, 40, 20),
         new wall(170, 250, 40, 20,),
-        new buttondoor(67, 252, 106 , 15, "door", "PaleVioletRed","papelão",800,40,true),
+        new buttondoor(67, 252, 106 , 15, "door", "PaleVioletRed", "papelão",800,40,true),
         new wall(30, 400, 40, 20),
         new wall(170, 400, 40, 20,),
-        new buttondoor(67, 402, 106 , 15, "door", "LightSeaGreen","fios",800,40,true),
+        new buttondoor(67, 402, 106 , 15, "door", "LightSeaGreen", "fios",800,40,true),
         new wall(30, 550, 40, 20),
         new wall(170, 550, 40, 20,),
-        new buttondoor(67, 552, 106 , 15, "door", "DarkOrange","borracha",800,40,true),
+        new buttondoor(67, 552, 106 , 15, "door", "DarkOrange", "borracha",800,40,true),
         new wall(1170,180, 20, 520,),
         new wall(1190, 580, 40, 20,),
         new wall(1330, 580, 40, 20),
-        new buttondoor(1227, 582, 106 , 15, "door", "LightCoral","tocas",800,40,true),
+        new buttondoor(1227, 582, 106 , 15, "door", "LightCoral", "tocas",800,40,true),
         new wall(1190, 450, 40, 20,),
         new wall(1330, 450, 40, 20),
-        new buttondoor(1227, 452, 106 , 15, "door", "FireBrick","garrafas",800,40,true),
+        new buttondoor(1227, 452, 106 , 15, "door", "FireBrick", "garrafas",800,40,true),
         new wall(1190, 320, 40, 20,),
         new wall(1330, 320, 40, 20),
-        new buttondoor(1227, 322, 106 , 15, "door", "DeepSkyBlue","asfalto",800,40,true),
+        new buttondoor(1227, 322, 106 , 15, "door", "DeepSkyBlue", "asfalto",800,40,true),
         new wall(1190, 190, 40, 20,),
         new wall(1330, 190, 40, 20),
-        new buttondoor(1227, 192, 106 , 15, "door", "MediumSlateBlue","copo",800,40,true),
-        new buttondoor(40, 615, 35 , 35, "button", "MediumSlateBlue","copo",75,605,true),
-        new buttondoor(1330, 250, 35 , 35, "button", "DarkOrange","borracha",1280,250,true),
-        new buttondoor(170, 480, 35 , 35, "button", "DeepSkyBlue","asfalto",120,470,true),
-        new buttondoor(1200, 380, 35 , 35, "button", "LightSeaGreen","fios",1235,370,true),
-        new buttondoor(40, 310, 35 , 35, "button", "FireBrick","garrafas",75,300,true),
-        new buttondoor(1330, 510, 35 , 35, "button", "PaleVioletRed","papelão",1280,500,true),
-        new buttondoor(170, 160, 35 , 35, "button", "LightCoral","tocas",120,150,true),
-        new buttondoor(1260, 630, 35 , 35, "button","MediumVioletRed", "gilete",1250,580,true),
+        new buttondoor(1227, 192, 106 , 15, "door", "MediumSlateBlue", "copo",800,40,true),
+        new buttondoor(40, 615, 35 , 35, "button", "MediumSlateBlue", "copo",75,605,true),
+        new buttondoor(1330, 250, 35 , 35, "button", "DarkOrange", "borracha",1280,250,true),
+        new buttondoor(170, 480, 35 , 35, "button", "DeepSkyBlue", "asfalto",120,470,true),
+        new buttondoor(1200, 380, 35 , 35, "button", "LightSeaGreen", "fios",1235,370,true),
+        new buttondoor(40, 310, 35 , 35, "button", "FireBrick", "garrafas",75,300,true),
+        new buttondoor(1330, 510, 35 , 35, "button", "PaleVioletRed", "papelão",1280,500,true),
+        new buttondoor(170, 160, 35 , 35, "button", "LightCoral", "tocas",120,150,true),
+        new buttondoor(1260, 630, 35 , 35, "button", "MediumVioletRed", "gilete",1250,580,true),
+        new wall(300, 240, 800, 15),
+        new wall(400, 350, 700, 15),
+        new wall(400, 460, 700, 15),
+        new wall(400, 570, 700, 15),
+        new wall(400, 680, 700, 15),
+        new buttondoor(403, 582, 10 , 93, "door", "DeepSkyBlue", "asfalto",120,470,false),
+        new buttondoor(1086, 582, 10 , 93, "door", "DeepSkyBlue", "asfalto",120,470,false),
+        new buttondoor(303, 176, 15, 67, "door", "Lime", "primo",800,40,true),
+        new buttondoor(403, 472, 10 , 101, "door", "FireBrick", "garrafas",75,300,false),
+        new buttondoor(1086, 472, 10 , 101, "door", "FireBrick", "garrafas",75,300,false),
+        new buttondoor(403, 362, 10 , 101, "door", "LightCoral", "tocas",120,150,false),
+        new buttondoor(1086, 362, 10 , 101, "door", "LightCoral", "tocas",120,150,false),
+        new movela (410,640,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x", 8, 1125, 100),
+        new movela (1030,590,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x", 8, 1125, 100),
+        new movela (410,540,75,30, "movel", "red", 410, 960, 220, 360, "direita", "x",13.5, 1125, 100),
+        new movela (1030,480,75,30, "movel", "red", 410, 960, 220, 360, "direita", "x",13.5, 1125, 100),
+        new movela (400,430,30,30, "movel", "red", 410, 960, 220, 360, "direita", "x",8, 1125, 100),
+        new movela (1030,365,30,30, "movel", "red", 410, 960, 220, 360, "direita", "x",8, 1125, 100),
+        new movela (460,430,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x",10, 1125, 100),
+        new movela (960,365,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x",10, 1125, 100),
+        new movela (980,300,30,30, "movel", "red", 410, 1030, 255, 350, "direita", "y",3, 1125, 100),
+        new movela (480,300,30,30, "movel", "red", 410, 1030, 255, 350, "direita", "y",3, 1125, 100),
+        new movela (690,300,30,30, "movel", "red", 410, 1030, 255, 350, "direita", "y",3, 1125, 100),
+        new movela (460,430,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x",10, 1125, 100),
+        new movela (960,365,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x",10, 1125, 100),
+        new movela (410,255,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x", 8, 1125, 100),
+        new movela (1030,320,30,30, "movel", "red", 410, 1030, 220, 360, "direita", "x", 8, 1125, 100),
+        new checkpoint(30,30,380,700, "ghost", "check", "black",0, 320, 300),
+        new checkpoint(1100,30,660,700, "ghost", "check", "blue",0, 1125, 100)
+        
     ],
+
+
+    [
+        //new wall (0,0, 1500, 30, "parede"),
+        //new wall (0,0, 30, 800, "parede"),
+        //new wall (0,800, 1500, 30, "parede"),
+        //new wall (1480,0, 30, 830, "parede"),
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),  
+        new wall (1370,0, 30, 700, "parede"),
+        new areachanger (50, 640, 200, 30, "area", "green", 1, 775,80, false),
+        new torreta(270,400, 40,40, "torreta", "orange",0, 0.4, 8, 20, 20),
+        new wall(30,520,280, 30,),
+        new wall(310,520,30, 50,),
+        new buttondoor(318,564, 15 , 110, "door", "Crimson", "lesão",120,470,true),
+        new buttondoor(50,580, 35 , 35, "button", "Crimson", "lesão",85,570,true),
+        new checkpoint(30,520,300,700, "ghost", "check", "blue",0, 125, 570),
+        new wall(700, 200, 20, 200),
+        new buttondoor(50,50, 35 , 35, "button", "Chocolate", "pepsi",40,85,true),
+        new areachanger (1340, 50, 30, 200, "area", "green", 11, 100, 125, false),
+        new wall (1200, 30, 20, 100),
+        new wall (1200, 200, 20, 100),
+        new wall (1200, 300, 200, 20),
+        new buttondoor(1205, 124, 10, 80, "door", "Chocolate", "pepsi",85,135,true),
+        new torreta(270,200, 40,40, "torreta", "orange",0, 0.4, 8, 20, 20),
+        new wall(110, 30, 20,250),
+        new checkpoint(30,30,100,250, "ghost", "check", "blue",0, 40,85),
+        new checkpoint(1200,30,300,290, "ghost", "check", "blue",0, 1270, 125),
+        new torreta(560,300, 40,40, "torreta", "orange",0, 0.001, 20, 20, 20),
+    ],
+
+
+    [
+        new areachanger (30, 50, 30, 200, "area", "green", 10, 1270, 125, false),
+        new wall (0,0, 1400, 30, "parede"),
+        new wall (0,0, 30, 700, "parede"),
+        new wall (0,670, 1400, 30, "parede"),  
+        new wall (1370,0, 30, 700, "parede"),
+        new torreta(300,300, 40,40, "torreta", "orange",0, 0.1, 35, 100, 100),
+        //new torreta(300,300, 40,40, "torreta", "orange",0, 0.001, 12, 20, 20),
+        new wall(700, 200, 40, 270)
+    ]
+]
+
+
+
+let projectiles = 
+[
+
 ]
 
         let activewalls = walls[0]
@@ -510,6 +718,170 @@ transparency)
                 return true}
         }
 
+        function algumevento(evento)
+        {
+            if (evento.eventu == "blueappear")
+        {
+            if (joias.blue == true)
+            {
+                if (evento.triggered == false)
+            
+            {
+                player.speed = 0
+                canvas.style.backgroundColor = "maroon"
+                let who = [
+                    new wall(200, 300, 50, 50, "who","red"),
+                    new wall(210, 305, 10, 15, "who"),
+                    new wall(230, 305, 10, 15, "who"),
+                    new wall(210, 330, 30, 7, "who"),
+                    new wall(214, 310, 2, 5, "who", "white"),
+                    new wall(234, 310, 2, 5, "who", "white"),
+                ]
+                who.forEach(function(parte)
+            {
+                activewalls.push(parte)
+            })
+                alert("J")
+                alert("Já")
+                alert("Já c")
+                alert("Já ch")
+                alert("Já che")
+                alert("Já cheg")
+                alert("Já chega")
+                alert("Já chega d")
+                alert("Já chega di")  
+                alert("Já chega dis")  
+                alert("Já chega diss")  
+                alert("Já chega disso") 
+                alert("Já chega disso.")
+                requestAnimationFrame(function()
+            {
+                alert("")
+                alert("F")
+                alert("Fi")
+                alert("Fiq")
+                alert("Fiqu")
+                alert("Fique")
+                alert("Fique a")
+                alert("Fique ao")
+                alert("Fique aon")
+                alert("Fique aond")
+                alert("Fique aonde")
+                alert("Fique aonde v")
+                alert("Fique aonde vo") 
+                alert("Fique aonde voc") 
+                alert("Fique aonde você")
+                alert("Fique aonde você p") 
+                alert("Fique aonde você pe")   
+                alert("Fique aonde você per")
+                alert("Fique aonde você pert")
+                alert("Fique aonde você perte")
+                alert("Fique aonde você perten")
+                alert("Fique aonde você pertenc")
+                alert("Fique aonde você pertence") 
+                alert("Fique aonde você pertence,") 
+                alert("Fique aonde você pertence, a") 
+                alert("Fique aonde você pertence, ab")
+                alert("Fique aonde você pertence, abe")
+                alert("Fique aonde você pertence, aber")
+                alert("Fique aonde você pertence, aberr")
+                alert("Fique aonde você pertence, aberra")
+                alert("Fique aonde você pertence, aberraç")
+                alert("Fique aonde você pertence, aberraçã")
+                alert("Fique aonde você pertence, aberração")
+                alert("Fique aonde você pertence, aberração.")
+                alert( "N" )
+                alert( "Nã" )
+                alert( "Não" )
+                alert( "Não o" )
+                alert( "Não ou" )
+                alert( "Não ous" )
+                alert( "Não ouse" )
+                alert( "Não ouse i" )
+                alert( "Não ouse ir" )
+                alert( "Não ouse ir a" )
+                alert( "Não ouse ir al" )
+                alert( "Não ouse ir alé" )
+                alert( "Não ouse ir além" )
+                alert( "Não ouse ir além d" )
+                alert( "Não ouse ir além di" )
+                alert( "Não ouse ir além dis" )
+                alert( "Não ouse ir além diss" )
+                alert( "Não ouse ir além disso" )
+                alert( "Não ouse ir além disso." )
+                alert( "V" )
+                alert( "Vo" )
+                alert( "Voc" )
+                alert( "Você" )
+                alert( "Você s" )
+                alert( "Você sa" )
+                alert( "Você sab" )
+                alert( "Você sabe" )
+                alert( "Você sabe o" )
+                alert( "Você sabe o q" )
+                alert( "Você sabe o qu" )
+                alert( "Você sabe o que" )
+                alert( "Você sabe o que f" )
+                alert( "Você sabe o que fe" )
+                alert( "Você sabe o que fez" )
+                alert( "Você sabe o que fez." )
+                alert( "V" )
+                alert( "Vo" )
+                alert( "Vol" )
+                alert( "Volt" )
+                alert( "Volte" )
+                alert( "Volte p" )
+                alert( "Volte pr" )
+                alert( "Volte pro" )
+                alert( "Volte pro s" )
+                alert( "Volte pro se" )
+                alert( "Volte pro seu" )
+                alert( "Volte pro seu c" )
+                alert( "Volte pro seu ca" )
+                alert( "Volte pro seu can" )
+                alert( "Volte pro seu cant" )
+                alert( "Volte pro seu canti" )
+                alert( "Volte pro seu cantin" )
+                alert( "Volte pro seu cantinh" )
+                alert( "Volte pro seu cantinho" )
+                alert( "Volte pro seu cantinho e" )
+                alert( "Volte pro seu cantinho es" )
+                alert( "Volte pro seu cantinho esc" )
+                alert( "Volte pro seu cantinho escu" )
+                alert( "Volte pro seu cantinho escur" )
+                alert( "Volte pro seu cantinho escuro" )
+                alert( "Volte pro seu cantinho escuro e" )
+                alert( "Volte pro seu cantinho escuro e a" )
+                alert( "Volte pro seu cantinho escuro e ap" )
+                alert( "Volte pro seu cantinho escuro e apo" )
+                alert( "Volte pro seu cantinho escuro e apod" )
+                alert( "Volte pro seu cantinho escuro e apodr" )
+                alert( "Volte pro seu cantinho escuro e apodre" )
+                alert( "Volte pro seu cantinho escuro e apodreç" )
+                alert( "Volte pro seu cantinho escuro e apodreça" )
+                alert( "Volte pro seu cantinho escuro e apodreça." )
+
+              player.speed = 10
+              canvas.style.backgroundColor = "white"
+            })
+            requestAnimationFrame(function(){
+            for (let i = activewalls.length - 1; i >= 0; i--)
+            {
+                let wall = activewalls[i]
+                if (wall.id == "who")
+            {
+                activewalls.splice(i,1)
+            }
+            }
+            evento.triggered = true
+            clearmovement()})}}
+
+        }
+        }
+
+
+
+
         function clearmovement()
         { Object.keys(keys).forEach(function(key)
             {keys[key] = false})}
@@ -519,7 +891,10 @@ transparency)
             clearmovement()
             player.x = x
             player.y = y
-            alert("Morreu!")
+            requestAnimationFrame(function()
+            {
+                alert("Morreu!")
+            })
         }
 
 
@@ -545,6 +920,13 @@ transparency)
             {
 
                activewalls = walls[wall.area]
+                for (let i = projetil.length - 1; i >= 0; i--)
+            {
+                let projetil = activewalls[i]
+            
+                projectiles.splice(i,1)
+            
+            }
                player.x = wall.spawnx
                player.y = wall.spawny
 
@@ -568,6 +950,31 @@ transparency)
         }
 
 
+        function projetilou(projetil)
+        {
+            projetil.x = projetil.x + projetil.direcx * projetil.speed
+            projetil.y = projetil.y + projetil.direcy * projetil.speed
+        }
+
+
+
+
+        function torretat(torreta)
+        {   let agora = Date.now()
+
+            if ((agora - torreta.ultimodisparo) < (torreta.frequency *1000))
+            {
+                return
+            }
+            torreta.ultimodisparo = agora
+            let dx = (player.x + (player.width/2)) - (torreta.x + (torreta.width/2))
+            let dy = (player.y + (player.height/2))- (torreta.y + (torreta.height/2))
+            let distancia = Math.sqrt((dx * dx) + (dy *dy))
+            let directx = dx/distancia
+            let directy = dy/distancia
+            let projectile = new projetil(torreta.x + (torreta.width/2),torreta.y + (torreta.height/2), torreta.sizex, torreta.sizey,"projetil" , "red",directx, directy, torreta.speed)
+            projectiles.push(projectile)
+        }
 
 
 
@@ -594,7 +1001,7 @@ transparency)
                 wall.y = wall.y + wall.speed
             }
             if (iscolliding(wall, player))
-            {kill(wall.respawnx, wall.respawny)}}
+            {kill(player.checkx, player.checky)}}
 
 
             else
@@ -621,13 +1028,13 @@ transparency)
                 wall.x = wall.x - wall.speed
             }
             if (iscolliding(wall, player))
-            {kill(wall.respawnx, wall.respawny)}
+            {kill(player.checkx, player.checky)}
 
 
             }
             }
 
-
+        
         function create()
         {
             brush.fillRect(
@@ -639,17 +1046,21 @@ transparency)
 
             activewalls.forEach(function(wall)
             {
-
+            if (wall.id == "torreta")
+            {
+                torretat(wall)
+            }
             if (wall.id == "movel")
             {
                 movel(wall)
             }
+
             if (wall.paint != false)
             {if (wall.cor)
             {
                 brush.fillStyle = wall.cor
             }
-            if (wall.transparency)
+            if (wall.transparency != undefined)
             {
                 brush.globalAlpha = wall.transparency
             }
@@ -665,7 +1076,32 @@ transparency)
             }
 
             )
+            for (let i = projectiles.length - 1; i >= 0 ; i--)
+        {
+            let projectile = projectiles[i]
+            projetilou(projectile)
+            brush.fillStyle = projectile.cor
+            brush.fillRect(
+                    projectile.x,
+                    projectile.y,
+                    projectile.width,
+                    projectile.height
+                )
+            if (iscolliding(player,projectile))
+        {
+            kill(player.checkx, player.checky)
         }
+        activewalls.forEach(function(wall)
+    {
+        if (iscolliding(wall, projectile))
+    {
+        if ((wall.id != "torreta") && (wall.id !="ghost"))
+        {projectiles.splice(i, 1)}
+    }
+    })
+        
+
+        brush.fillStyle = "black"}}
 
         window.addEventListener("keydown", function(event)
     {
@@ -734,14 +1170,14 @@ transparency)
         if (joias[wall.cor] == false)
             {alert("Coletou a joia " + wall.cor + "!")
             joias[wall.cor] = true
-            player.x = wall.x
-            player.y = wall.y + 120
+            player.x = wall.backx
+            player.y = wall.backy
             clearmovement()}
             else
         {
             alert("Você ja coletou essa joia")
-            player.x = wall.x
-            player.y = wall.y + 120
+            player.x = wall.backx
+            player.y = wall.backy
             clearmovement()
         }
         }
@@ -765,6 +1201,21 @@ transparency)
                 }
             }
         })
+        }
+        else
+        {
+            if (wall.code == "check")
+        {
+            player.checkx = wall.coordx
+            player.checky = wall.coordy
+        }
+        else
+        {
+            if (wall.eventu != undefined)
+        {
+            algumevento(wall)
+        }
+        }
         }
         }
         }if ((wall.paint) != false && (wall.id != "ghost"))
@@ -826,14 +1277,14 @@ transparency)
         if (joias[wall.cor] == false)
             {alert("Coletou a joia " + wall.cor + "!")
             joias[wall.cor] = true
-            player.x = wall.x
-            player.y = wall.y + 120
+            player.x = wall.backx
+            player.y = wall.backy
             clearmovement()}
             else
         {
             alert("Você ja coletou essa joia")
-            player.x = wall.x
-            player.y = wall.y + 120
+            player.x = wall.backx
+            player.y = wall.backy
             clearmovement()
         }
         }
@@ -857,6 +1308,21 @@ transparency)
                 }
             }
         })
+        }
+        else
+        {
+            if (wall.code == "check")
+        {
+            player.checkx = wall.coordx
+            player.checky = wall.coordy
+        }
+        else
+        {
+            if (wall.eventu != undefined)
+        {
+            algumevento(wall.eventu)
+        }
+        }
         }
         }
         }if ((wall.paint) != false && (wall.id != "ghost"))
